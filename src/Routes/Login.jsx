@@ -75,7 +75,7 @@ class Login extends Component {
               </h5>
               <p>
                 <GoogleLogin
-                  clientId="55918411552-o87q5jvqa0dgg2von99oggoomuvn68eb.apps.googleusercontent.com"
+                  clientId="440278918733-qqr7c1rtb1vd86ctq521jh6taac87voi.apps.googleusercontent.com"
                   onSuccess={googleSuccess}
                   onFailure={googleFailure}
                   prompt="consent"
