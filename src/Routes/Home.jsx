@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+import AdminDashboard from "../components/AdminDashboard.jsx";
+import StudentDashboard from "../components/StudentDashboard.jsx";
+
 import { getDecodedToken } from "../utils/jwt";
 
 class Home extends Component {
@@ -12,9 +15,9 @@ class Home extends Component {
     const role = getDecodedToken().role;
     switch (role) {
       case "admin":
-        return;
+        return <AdminDashboard />;
       default:
-        return;
+        return <StudentDashboard />;
     }
   }
 }
