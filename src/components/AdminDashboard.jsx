@@ -8,6 +8,7 @@ import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import LazyHero from "react-lazy-hero";
+import Filepond from "./Filepond";
 
 class AdminDashboard extends Component {
   constructor(props) {
@@ -37,6 +38,7 @@ class AdminDashboard extends Component {
             <h6>Display slides to start the session</h6>
           </Button>
         </Col>
+        <Filepond />
         <div
           style={{
             position: "fixed",

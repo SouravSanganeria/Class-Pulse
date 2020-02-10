@@ -6,7 +6,18 @@ const adminSchema = new Schema({
   email: {
     type: String,
     index: true
-  }
+  },
+  courses: [
+    {
+      name: String,
+      pdfs: [
+        {
+          link: String,
+          sessionID: { type: String, unique: true }
+        }
+      ]
+    }
+  ]
 });
 
 mongoose.model("Admin", adminSchema);

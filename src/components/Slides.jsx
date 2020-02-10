@@ -13,7 +13,7 @@ class WIP extends Component {
   }
   state = {
     file:
-      "https://cors-anywhere.herokuapp.com/https://www.ets.org/Media/Tests/GRE/pdf/gre_research_validity_data.pdf",
+      "https://cors-anywhere.herokuapp.com/https://file-examples.com/wp-content/uploads/2017/10/file-example_PDF_500_kB.pdf",
     numPages: null,
     pageNumber: 1
   };
