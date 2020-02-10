@@ -31,6 +31,12 @@ class AdminDashboard extends Component {
             <h1>Hello, Admin!</h1>
           </div>
         </LazyHero>
+        <Col md={6}>
+          <Button variant="light" size="lg" href="admin/slides">
+            <h2>Navigate Slides</h2>
+            <h6>Display slides to start the session</h6>
+          </Button>
+        </Col>
         <div
           style={{
             position: "fixed",
@@ -40,7 +46,7 @@ class AdminDashboard extends Component {
             textAlign: "center"
           }}
         >
-          <span class="glyphicon glyphicon-calendar" />
+          <span className="glyphicon glyphicon-calendar" />
           <span style={{ color: "darkgrey" }}>
             BITS Pilani Hyderabad Campus
           </span>

@@ -18,6 +18,7 @@ import "../styles/progres-bar.css";
 // Import lazy loaded route components
 import { Home, Login, ErrorPage } from "./LazyLoadRoutes.jsx";
 import Logout from "./Logout.jsx";
+import Slides from "../components/Slides.jsx";
 import WIP from "../components/WIP.jsx";
 
 loadProgressBar();
@@ -67,6 +68,7 @@ class Routes extends Component {
         {decodedToken && <Header decodedToken={decodedToken} />}
         <Switch className="main">
           <AdminRoute exact path="/admin/servermon" component={WIP} />
+          <AdminRoute exact path="/admin/slides" component={Slides} />
           <Route
             path="/login"
             render={props => (
