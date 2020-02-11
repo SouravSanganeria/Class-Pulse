@@ -12,6 +12,7 @@ const adminSchema = new Schema({
       name: String,
       pdfs: [
         {
+          name: String,
           link: String,
           sessionID: { type: String, unique: true }
         }

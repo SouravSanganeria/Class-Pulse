@@ -13,7 +13,7 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 
 // Register the plugins
 //registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
-
+const pond = document.querySelector(".filepond--root");
 // Our app
 class Filepond extends Component {
   constructor(props) {

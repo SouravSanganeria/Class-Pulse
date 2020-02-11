@@ -38,6 +38,31 @@ class AdminDashboard extends Component {
   }
 
   generateCoursesList() {
+    function getpdfs(coursepdfs) {
+      let allpdfs = [];
+      coursepdfs.forEach(pdf => {
+        allpdfs.push(
+          <Card body>
+            <Row>
+              <Col>{pdf.name}</Col>
+              <Col>
+                <Link
+                  to={{
+                    pathname: "/admin/slides",
+                    state: { link: pdf.link }
+                  }}
+                >
+                  <Button variant="primary" align="right">
+                    Start Session
+                  </Button>
+                </Link>
+              </Col>
+            </Row>
+          </Card>
+        );
+      });
+      return <SeeAll items={allpdfs} count={5} name="courses" />;
+    }
     let allcourses = [];
     let temp = [];
     temp = this.state.courses;
@@ -46,9 +71,7 @@ class AdminDashboard extends Component {
       allcourses.push(
         <Collapse>
           <Collapse.Panel header={course.name}>
-            <Row style={{ margin: "1rem" }}>
-              <Button className="primary">Slides</Button>
-            </Row>
+            {getpdfs(course.pdfs)}
           </Collapse.Panel>
         </Collapse>
       );
@@ -68,18 +91,7 @@ class AdminDashboard extends Component {
         <br />
         <br />
         <br />
-        <Row>
-          <Col md={6}>
-            <Button variant="light" size="lg" href="admin/slides">
-              <h2>Navigate Slides</h2>
-              <h6>Display slides to start the session</h6>
-            </Button>
-          </Col>
-        </Row>
-        <br />
-        <br />
-        <br />
-        <br />
+        <Filepond />
         <div
           style={{
             position: "fixed",

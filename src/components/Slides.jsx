@@ -13,7 +13,7 @@ class WIP extends Component {
   }
   state = {
     file:
-      "https://cors-anywhere.herokuapp.com/https://file-examples.com/wp-content/uploads/2017/10/file-example_PDF_500_kB.pdf",
+      "https://cors-anywhere.herokuapp.com/" + this.props.location.state.link,
     numPages: null,
     pageNumber: 1
   };
