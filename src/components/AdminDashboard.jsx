@@ -30,7 +30,7 @@ class AdminDashboard extends Component {
     let allCourses = [];
     let decoded = getDecodedToken();
     console.log(decoded);
-    await axiosGET(`/api/courses/${decoded.email}`).then(res => {
+    await axiosGET(`/api/courses/${decoded.email}`,{headers:{"X-Requested-With" : "XMLHttpRequest"}}).then(res => {
       allCourses = res.data[0].courses;
       console.log(allCourses);
     });

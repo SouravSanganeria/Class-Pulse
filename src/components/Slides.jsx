@@ -13,7 +13,8 @@ class WIP extends Component {
   }
   state = {
     file:
-      "https://cors-anywhere.herokuapp.com/" + this.props.location.state.link,
+     this.props.location.state.link,
+    // "https://cors-anywhere.herokuapp.com/" + this.props.location.state.link,
     numPages: null,
     pageNumber: 1
   };
