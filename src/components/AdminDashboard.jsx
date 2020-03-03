@@ -67,14 +67,17 @@ class AdminDashboard extends Component {
     let temp = [];
     temp = this.state.courses;
     console.log(this.state && this.state.courses);
+    let tmp=0
     temp.forEach(course => {
       allcourses.push(
         <Collapse>
           <Collapse.Panel header={course.name}>
             {getpdfs(course.pdfs)}
+            <Filepond cname={tmp}/>
           </Collapse.Panel>
         </Collapse>
       );
+      tmp=tmp+1
     });
     return <SeeAll items={allcourses} count={5} name="courses" />;
   }
@@ -91,7 +94,6 @@ class AdminDashboard extends Component {
         <br />
         <br />
         <br />
-        <Filepond />
         <div
           style={{
             position: "fixed",
