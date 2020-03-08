@@ -1,7 +1,7 @@
 // Import React FilePond
 import React, { Component } from "react";
 import { FilePond, registerPlugin } from "react-filepond";
-
+import { getDecodedToken } from "../utils/jwt";
 // Import FilePond styles
 import "filepond/dist/filepond.min.css";
 
@@ -20,21 +20,31 @@ class Filepond extends Component {
     super(props);
 
     this.state = {
+      email:"",
+      url:"",
+      test_state:1,
       // Set initial files, type 'local' means this is a file
       // that has already been uploaded to the server (see docs)
       files: [
-        {
-          source: "index.html",
-          options: {
-            type: "local"
-          }
-        }
+        // {
+        //   source: "index.html",
+        //   options: {
+        //     type: "local"
+        //   }
+        // }
       ]
     };
   }
 
   handleInit() {
-    console.log("FilePond instance has initialised", this.pond);
+    // console.log("FilePond instance has initialised", this.pond);
+    let decoded = getDecodedToken();
+    console.log("filepod started")
+    console.log(decoded.email);
+    this.setState({email:decoded.email})
+    this.setState({url:`/api/fileupload/${this.state.email}/${this.props.cname}`})
+    console.log(this.props.cname)
+    console.log(this.state.url)
   }
 
   render() {
@@ -44,15 +54,20 @@ class Filepond extends Component {
         <FilePond
           ref={ref => (this.pond = ref)}
           files={this.state.files}
+          email={this.state.email}
           allowMultiple={true}
           maxFiles={3}
-          server="/api/fileupload"
+          // server="/api/fileupload"     
+          server={this.state.url}     
           oninit={() => this.handleInit()}
           onupdatefiles={fileItems => {
             // Set currently active file objects to this.state
             this.setState({
+              test_state:this.state.test_state+1,
               files: fileItems.map(fileItem => fileItem.file)
             });
+            window.location.reload(false)
+            // this.props.update.bind(this,id)
           }}
         />
       </div>
