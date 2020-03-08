@@ -2,7 +2,7 @@
 
 require("dotenv").config();
 
-const fileupload = require("express-fileupload")
+const fileupload = require("express-fileupload");
 const path = require("path");
 const util = require("util");
 const express = require("express");
@@ -15,7 +15,7 @@ const passport = require("passport");
 const cors = require("cors");
 
 const PORT = process.env.PORT || 4000;
-app.use(fileupload())
+app.use(fileupload());
 // app.use(express.static('uploads'));
 // app.use('/static', express.static(__dirname + '/uploads'));
 /****************** Server Options ******************/
@@ -29,7 +29,8 @@ app.use(bodyParser.json()); // Lets express handle JSON encoded data sent on the
 app.use(bodyParser.urlencoded({ extended: true }));
 
 /****************** Serve Static Files --> JS, CSS, IMAGES ETC ******************/
-app.use("/static",
+app.use(
+  "/static",
   express.static(path.join(__dirname, "../uploads"), { maxAge: cacheTime })
 );
 
@@ -72,7 +73,7 @@ if (process.env.DB_URI && process.env.DB_URI !== "") {
 }
 
 /****************** Route Handling ******************/
-app.use("/fileupload",require("./api/uploadhandler"))
+app.use("/fileupload", require("./api/uploadhandler"));
 app.use("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "../build/index.html"));
 });

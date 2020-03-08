@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import { Button, ButtonToolbar, Container } from "react-bootstrap";
+import { Alert } from "reactstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import PdfViewer from "./PdfViewer";
+import { Document, Page, pdfjs } from "react-pdf";
+import "react-pdf/dist/Page/AnnotationLayer.css";
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${
+  pdfjs.version
+}/pdf.worker.js`;
 
-class WIP extends Component {
+class Slides extends Component {
   constructor(props) {
     super(props);
   }
@@ -12,8 +17,7 @@ class WIP extends Component {
     console.log("Slides Reached");
   }
   state = {
-    file:
-     this.props.location.state.link,
+    file: this.props.location.state.link,
     // "https://cors-anywhere.herokuapp.com/" + this.props.location.state.link,
     numPages: null,
     pageNumber: 1
@@ -36,9 +40,10 @@ class WIP extends Component {
         console.log("Dec page", pageNumber);
       }
     };
-    let numpagescallback = dataFromChild => {
-      this.setState({ numPages: dataFromChild });
+    let onDocumentLoadSuccess = ({ numPages }) => {
+      this.setState({ numPages });
     };
+    const { pageNumber, numPages, file } = this.state;
     return (
       <Container>
         <Row>
@@ -46,36 +51,74 @@ class WIP extends Component {
             <h1 className="text-center">Welcome to Slides Functionality.</h1>
           </Col>
         </Row>
-        <Row style={{ padding: "15px" }}>
-          <Col>
-            <PdfViewer
-              pageNumber={this.state.pageNumber}
-              file={this.state.file}
-              getnumPages={numpagescallback}
-            />
-            <ButtonToolbar>
-              <Button
-                style={{ margin: "15px" }}
-                variant="primary"
-                size="sm"
-                onClick={decPage}
+        <div
+          style={{
+            background: "AliceBlue",
+            position: "relative",
+            height: "900px"
+          }}
+        >
+          <Row
+            style={{
+              padding: "15px",
+              height: "850px"
+            }}
+          >
+            <Col>
+              <div
+                style={{
+                  position: "relative",
+                  height: "500px",
+                  width: "500px",
+                  top: "20px",
+                  left: "25%"
+                }}
               >
-                Previous Slide
-              </Button>
-              <Button
-                style={{ margin: "15px" }}
-                variant="primary"
-                size="sm"
-                onClick={incPage}
-              >
-                Next Slide
-              </Button>
-            </ButtonToolbar>
-          </Col>
-        </Row>
+                <Document
+                  file={file}
+                  onLoadSuccess={onDocumentLoadSuccess}
+                  onLoadError={console.error}
+                >
+                  <Page height={800} size="A4" pageNumber={pageNumber} />
+                </Document>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Alert color="info">
+                <ButtonToolbar>
+                  <Button
+                    color="info"
+                    style={{ position: "relative", left: "30%" }}
+                    onClick={decPage}
+                  >
+                    Previous Slide
+                  </Button>
+                  <p
+                    style={{
+                      display: "inline",
+                      position: "relative",
+                      left: "40%"
+                    }}
+                  >
+                    Page {pageNumber} of {numPages}
+                  </p>
+                  <Button
+                    color="info"
+                    style={{ position: "relative", left: "50%" }}
+                    onClick={incPage}
+                  >
+                    Next Slide
+                  </Button>
+                </ButtonToolbar>
+              </Alert>
+            </Col>
+          </Row>
+        </div>
       </Container>
     );
   }
 }
 
-export default WIP;
+export default Slides;

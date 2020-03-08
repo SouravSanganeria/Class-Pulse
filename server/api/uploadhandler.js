@@ -1,6 +1,7 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const path = require("path");
+
 const mongoose = require("mongoose");
 const Admin = mongoose.model("Admin");
 router.get('/',(req,res)=>{
@@ -18,11 +19,13 @@ router.post("/:email/:id",(req,res)=>{
     const file = req.files.filepond
     // console.log(file)
     file.mv(`${__dirname}/../../uploads/${file.name}`, err => {
+
     if (err) {
-      console.error(err)
-      return res.status(500).send(err)
+      console.error(err);
+      return res.status(500).send(err);
     }
     // file.mv(`${__dirname}/client/public/uploads/${file2.name}`)
+
     Admin.find({ email: req.params.email})
     .then(doc=>{
         console.log(doc[0].courses[req.params.id])
@@ -49,3 +52,4 @@ router.post("/:email/:id",(req,res)=>{
 })
 })
 module.exports = router
+
