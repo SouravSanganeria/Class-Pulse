@@ -25,25 +25,22 @@ class Slides extends Component {
 
   render() {
     let decPage = () => {
-      console.log("Dec page", this.state.pageNumber);
       var pageNumber = this.state.pageNumber - 1;
       if (pageNumber >= 1) {
         this.setState({ pageNumber });
-        console.log("Dec page", pageNumber);
       }
     };
     let incPage = () => {
-      console.log("Inc page", this.state.pageNumber);
       var pageNumber = this.state.pageNumber + 1;
       if (pageNumber <= this.state.numPages) {
         this.setState({ pageNumber });
-        console.log("Dec page", pageNumber);
       }
     };
     let onDocumentLoadSuccess = ({ numPages }) => {
       this.setState({ numPages });
     };
     const { pageNumber, numPages, file } = this.state;
+    console.log("okay page", pageNumber);
     return (
       <Container>
         <Row>

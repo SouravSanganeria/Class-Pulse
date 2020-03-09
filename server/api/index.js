@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const courses = require("./courses");
-const markers = require("./markers");
+const marks = require("./marks");
 
 const auth = require("./auth");
 const checkToken = require("./authMiddleware");
@@ -14,6 +14,6 @@ router.all("/", (req, res, next) => {
 router.use("/auth", auth);
 router.use("/courses", courses);
 router.use("/fileupload", fileupload);
-router.use("/markers", markers);
+router.use("/marks", marks);
 
 module.exports = router;

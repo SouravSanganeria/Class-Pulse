@@ -14,9 +14,6 @@ const markSchema = new Schema({
   colour: {
     type: String
   },
-  userID: {
-    type: String
-  },
   comment: {
     type: String
   }
