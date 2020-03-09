@@ -19,6 +19,7 @@ import "../styles/progres-bar.css";
 import { Home, Login, ErrorPage } from "./LazyLoadRoutes.jsx";
 import Logout from "./Logout.jsx";
 import Slides from "../components/Slides.jsx";
+import StudentSlides from "../components/StudentSlides.jsx";
 import WIP from "../components/WIP.jsx";
 
 loadProgressBar();
@@ -69,6 +70,7 @@ class Routes extends Component {
         <Switch className="main">
           <AdminRoute exact path="/admin/servermon" component={WIP} />
           <AdminRoute exact path="/admin/slides" component={Slides} />
+          <CommonRoute exact path="/studentslides" component={StudentSlides} />
           <Route
             path="/login"
             render={props => (
