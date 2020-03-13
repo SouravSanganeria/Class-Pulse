@@ -115,7 +115,7 @@ class StudentSlides extends Component {
     axios
       .get(url)
       .then(response => {
-        console.log(response);
+        console.log("response", response.data.length);
         const newX = [];
         const newY = [];
         const newColour = [];
@@ -165,20 +165,20 @@ class StudentSlides extends Component {
     const markings = [];
     for (var i = 0; i < this.state.no; i += 1) {
       markings.push(
-        <Icon
+        <Spinner
           name="accept"
-          size="medium"
+          size="sm"
           color={this.state.colour[i]}
           style={{
-            top: this.state.markx[i] + "px",
-            left: this.state.marky[i] + "px",
-            position: "relative",
-            zIndex: 10
+            top: this.state.markx[i],
+            left: this.state.marky[i],
+            position: "absolute",
+            zIndex: 2
           }}
         />
       );
     }
-    console.log(markings);
+    console.log("markings", markings);
     return (
       <Container>
         <Row>
@@ -208,7 +208,7 @@ class StudentSlides extends Component {
                   height: "500px",
                   width: "500px",
                   top: "20px",
-                  left: "25%"
+                  left: "0%"
                 }}
               >
                 <Document

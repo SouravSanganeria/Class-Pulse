@@ -22,7 +22,6 @@ class Filepond extends Component {
     this.state = {
       email: "",
       url: "",
-      test_state: 1,
       // Set initial files, type 'local' means this is a file
       // that has already been uploaded to the server (see docs)
       files: [
@@ -65,7 +64,6 @@ class Filepond extends Component {
           onupdatefiles={fileItems => {
             // Set currently active file objects to this.state
             this.setState({
-              test_state: this.state.test_state + 1,
               files: fileItems.map(fileItem => fileItem.file)
             });
             //window.location.reload(false)
