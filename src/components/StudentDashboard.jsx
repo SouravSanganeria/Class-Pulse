@@ -4,6 +4,7 @@ import "rc-collapse/assets/index.css";
 import Container from "react-bootstrap/Container";
 import LazyHero from "react-lazy-hero";
 import { axiosGET } from "../utils/axiosClient";
+import axios from "axios";
 import { getDecodedToken } from "../utils/jwt";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -39,6 +40,7 @@ class StudentDashboard extends Component {
     console.log(this.user);
     this.toggle = this.toggle.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.slide = this.slide.bind(this);
   }
 
   state = {
@@ -58,10 +60,24 @@ class StudentDashboard extends Component {
     console.log("Hello");
     console.log("SessionID:", this.state.sessionID);
     //this.setState({ link: this.state.sessionID });
+    var url = `/api/marks/getLink/${this.state.sessionID}`;
+    axios
+      .get(url)
+      .then(response => {
+        console.log("res", response);
+        this.setState({ link: response.data[0].link }, this.slide);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
 
-    localStorage.setItem("link", this.state.sessionID);
+  slide() {
+    localStorage.setItem("link", this.state.link);
+    localStorage.setItem("ssid", this.state.sessionID);
+    //console.log(localStorage.getItem("ssid"));
+    //console.log("link", this.state.link);
     window.location.href = "/studentslides";
-    //this.toggle();
   }
 
   render() {

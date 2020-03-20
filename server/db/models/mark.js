@@ -2,21 +2,22 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const markSchema = new Schema({
-  slideNo: {
-    type: Number
-  },
-  Xcord: {
-    type: Number
-  },
-  Ycord: {
-    type: Number
-  },
-  colour: {
-    type: String
-  },
-  comment: {
-    type: String
-  }
+  name: String,
+  link: String,
+  sessionID: { type: String, unique: true },
+  slides: [
+    {
+      slideNo: Number,
+      marks: [
+        {
+          Xcord: Number,
+          Ycord: Number,
+          colour: String,
+          comment: String
+        }
+      ]
+    }
+  ]
 });
 
 mongoose.model("Mark", markSchema);

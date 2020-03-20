@@ -5,8 +5,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
-import { Icon } from "@stardust-ui/react";
-import { axiosGET, axiosPOST } from "../utils/axiosClient";
+//import { Icon } from "@stardust-ui/react";
+//import { axiosGET, axiosPOST } from "../utils/axiosClient";
 import {
   Spinner,
   Form,
@@ -15,16 +15,7 @@ import {
   Input,
   Modal,
   ModalHeader,
-  ModalBody,
-  Modalrooter,
-  TabContent,
-  TabPane,
-  Nav,
-  Navitea,
-  NavLink,
-  Toast,
-  ToastBody,
-  ToastHeader
+  ModalBody
 } from "reactstrap";
 import axios from "axios";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${
@@ -51,6 +42,7 @@ class StudentSlides extends Component {
   }
   state = {
     file: localStorage.getItem("link"),
+    sid: localStorage.getItem("ssid"),
     // "https://cors-anywhere.herokuapp.com/" + this.props.location.state.link,
     numPages: null,
     pageNumber: 1,
@@ -83,16 +75,20 @@ class StudentSlides extends Component {
     e.preventDefault();
     if (this.state.form_completed === true) {
       const newMark = {
-        slideNo: this.state.pageNumber,
         Xcord: this.state.Xcord,
         Ycord: this.state.Ycord,
         colour: this.state.form_colour,
         comment: this.state.form_comment
       };
       //console.log("onsubmit reached");
-      axiosPOST(`api/marks/add`, newMark).then(res =>
-        console.log("okay", res.data)
-      );
+      //console.log("ssid", this.state.sid);
+      //console.log("link", this.state.file);
+      axios
+        .post(
+          `api/marks/add/${this.state.sid}/${this.state.pageNumber}`,
+          newMark
+        )
+        .then(res => console.log("okay", res.data));
 
       this.setState({ form_completed: false });
     }
@@ -111,7 +107,7 @@ class StudentSlides extends Component {
   }
 
   getmarks() {
-    var url = `api/marks/getSlide/${this.state.pageNumber}`;
+    var url = `api/marks/getSlide/${this.state.sid}/${this.state.pageNumber}`;
     axios
       .get(url)
       .then(response => {
@@ -170,15 +166,14 @@ class StudentSlides extends Component {
           size="sm"
           color={this.state.colour[i]}
           style={{
-            top: this.state.markx[i],
-            left: this.state.marky[i],
+            top: this.state.marky[i],
+            left: this.state.markx[i],
             position: "absolute",
             zIndex: 2
           }}
         />
       );
     }
-    console.log("markings", markings);
     return (
       <Container>
         <Row>
@@ -218,7 +213,6 @@ class StudentSlides extends Component {
                 >
                   <Page height={800} size="A4" pageNumber={pageNumber} />
                 </Document>
-                {markings}
               </div>
             </Col>
           </Row>

@@ -51,7 +51,7 @@ class AdminDashboard extends Component {
                 <Link
                   to={{
                     pathname: "/admin/slides",
-                    state: { link: pdf.link }
+                    state: { link: pdf.link, sid: pdf.sessionID }
                   }}
                 >
                   <Button variant="primary" align="right">

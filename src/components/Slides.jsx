@@ -5,26 +5,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
-import { axiosGET, axiosPOST } from "../utils/axiosClient";
-import {
-  Spinner,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Modalrooter,
-  TabContent,
-  TabPane,
-  Nav,
-  Navitea,
-  NavLink,
-  Toast,
-  ToastBody,
-  ToastHeader
-} from "reactstrap";
+//import { axiosGET, axiosPOST } from "../utils/axiosClient";
+import { Spinner, Toast, ToastBody, ToastHeader } from "reactstrap";
 import axios from "axios";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${
   pdfjs.version
@@ -44,6 +26,7 @@ class Slides extends Component {
   }
   state = {
     file: this.props.location.state.link,
+    sid: this.props.location.state.sid,
     // "https://cors-anywhere.herokuapp.com/" + this.props.location.state.link,
     numPages: null,
     pageNumber: 1,
@@ -55,7 +38,7 @@ class Slides extends Component {
   };
 
   getmarks() {
-    var url = `http://localhost:4000/api/marks/getSlide/${
+    var url = `http://localhost:4000/api/marks/getSlide/${this.state.sid}/${
       this.state.pageNumber
     }`;
     axios
@@ -119,8 +102,8 @@ class Slides extends Component {
           size="sm"
           color={this.state.colour[i]}
           style={{
-            top: this.state.markx[i],
-            left: this.state.marky[i],
+            top: this.state.marky[i],
+            left: this.state.markx[i],
             position: "absolute",
             zIndex: 2
           }}
@@ -133,8 +116,8 @@ class Slides extends Component {
             size="sm"
             color={this.state.colour[i]}
             style={{
-              top: this.state.markx[i],
-              left: this.state.marky[i],
+              top: this.state.marky[i],
+              left: this.state.markx[i],
               position: "absolute",
               zIndex: 2
             }}
@@ -148,8 +131,8 @@ class Slides extends Component {
             size="sm"
             color={this.state.colour[i]}
             style={{
-              top: this.state.markx[i],
-              left: this.state.marky[i],
+              top: this.state.marky[i],
+              left: this.state.markx[i],
               position: "absolute",
               zIndex: 2
             }}
