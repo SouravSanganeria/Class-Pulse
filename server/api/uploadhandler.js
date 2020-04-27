@@ -4,6 +4,7 @@ const path = require("path");
 
 const mongoose = require("mongoose");
 const Admin = mongoose.model("Admin");
+const Mark = mongoose.model("Mark");
 router.get("/", (req, res) => {
   res.json({
     message:
@@ -39,6 +40,15 @@ router.post("/:email/:id", (req, res) => {
         doc[0].courses[req.params.id].pdfs.push(newo);
         console.log(doc[0].courses[req.params.id].pdfs);
         doc[0].save();
+        var m1= new Mark({
+          name: file.name,
+          link: `http://localhost:4000/static/${file.name}`,
+          sessionID: file.name.slice(0, 6),
+          slides: []
+        })
+        m1.save()
+        .then(doc=>{console.log(doc)})
+        .catch(err=>{console.err(err)})
       })
       .catch(err => {
         console.log(err);

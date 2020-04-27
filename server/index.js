@@ -14,7 +14,7 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const cors = require("cors");
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 app.use(fileupload());
 // app.use(express.static('uploads'));
 // app.use('/static', express.static(__dirname + '/uploads'));
