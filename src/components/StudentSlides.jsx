@@ -50,7 +50,7 @@ class StudentSlide extends Component {
     console.log(this.state.tcpageno);
     if (prevProps.x !== this.props.x) {
       this.setState({ tcpageno: this.props.x });
-      if (this.props.x >= 1 && this.props.x < this.state.numPages) {
+      if (this.props.x >= 1 && this.props.x <= this.state.numPages) {
         this.setState({ pageNumber: this.props.x }, this.getmarks);
       }
     }
