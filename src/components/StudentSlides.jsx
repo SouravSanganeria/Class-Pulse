@@ -37,6 +37,7 @@ class StudentSlide extends Component {
     this.incPage = this.incPage.bind(this);
     this.tcpageno = this.props.x;
     this.onDocumentLoadSuccess = this.onDocumentLoadSuccess.bind(this);
+    this.changsyncstate = this.changsyncstate.bind(this);
   }
   componentDidMount() {
     console.log("Slides Reached");
@@ -48,7 +49,7 @@ class StudentSlide extends Component {
     console.log("Slides Reached");
     console.log(this.props.x);
     console.log(this.state.tcpageno);
-    if (prevProps.x !== this.props.x) {
+    if (prevProps.x !== this.props.x && this.state.syncstatus) {
       this.setState({ tcpageno: this.props.x });
       if (this.props.x >= 1 && this.props.x <= this.state.numPages) {
         this.setState({ pageNumber: this.props.x }, this.getmarks);
@@ -66,6 +67,8 @@ class StudentSlide extends Component {
     modal: false,
     Xcord: 0,
     Ycord: 0,
+    syncstatus: true,
+    synctext: "Unsync",
   };
 
   toggle() {
@@ -84,7 +87,20 @@ class StudentSlide extends Component {
       form_comment: e.target.value,
     });
   }
-
+  changsyncstate() {
+    if (this.state.syncstatus) {
+      this.setState({ syncstatus: false, synctext: "Sync" });
+    } else {
+      this.setState(
+        {
+          syncstatus: true,
+          synctext: "UnSync",
+          pageNumber: this.props.x,
+        },
+        this.getmarks
+      );
+    }
+  }
   onSubmit(e) {
     e.preventDefault();
     if (this.state.form_completed === true) {
@@ -261,6 +277,13 @@ class StudentSlide extends Component {
                     onClick={this.incPage}
                   >
                     Next Slide
+                  </Button>
+                  <Button
+                    color="green"
+                    style={{ position: "relative", left: "50%" }}
+                    onClick={this.changsyncstate}
+                  >
+                    {this.state.synctext}
                   </Button>
                 </ButtonToolbar>
               </Alert>
