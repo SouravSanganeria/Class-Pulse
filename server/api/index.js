@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const courses = require("./courses");
 const marks = require("./marks");
-
+const addnotes = require("./addnotes");
 const auth = require("./auth");
 const checkToken = require("./authMiddleware");
 const fileupload = require("./uploadhandler");
@@ -15,5 +15,6 @@ router.use("/auth", auth);
 router.use("/courses", courses);
 router.use("/fileupload", fileupload);
 router.use("/marks", marks);
+router.use("/addnote", addnotes);
 
 module.exports = router;

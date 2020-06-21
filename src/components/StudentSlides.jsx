@@ -1,5 +1,7 @@
 import React, { Component, useState, useEffect } from "react";
 import { Button, ButtonToolbar, Container } from "react-bootstrap";
+import Accordion from "react-bootstrap/Accordion";
+import Card from "react-bootstrap/Card";
 import { Alert } from "reactstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -17,6 +19,7 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
+  ModalFooter,
 } from "reactstrap";
 import axios from "axios";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${
@@ -35,48 +38,55 @@ class StudentSlide extends Component {
     this.getmarks = this.getmarks.bind(this);
     this.decPage = this.decPage.bind(this);
     this.incPage = this.incPage.bind(this);
-    this.tcpageno = this.props.x;
     this.onDocumentLoadSuccess = this.onDocumentLoadSuccess.bind(this);
     this.changsyncstate = this.changsyncstate.bind(this);
+    this.toggle2 = this.toggle2.bind(this);
+    this.onSubmitNotes = this.onSubmitNotes.bind(this);
+    this.onChangeNote = this.onChangeNote.bind(this);
+    this.getNotes = this.getNotes.bind(this);
+    this.state = {
+      file: localStorage.getItem("link"),
+      sid: localStorage.getItem("ssid"),
+      // "https://cors-anywhere.herokuapp.com/" + this.props.location.state.link,
+      numPages: null,
+      pageNumber: 1,
+      form_colour: "",
+      form_completed: false,
+      modal: false,
+      Xcord: 0,
+      Ycord: 0,
+      syncstatus: true,
+      synctext: "Unsync",
+      showaddnotes: false,
+      notes: "Add note here",
+      sNotes: [],
+    };
   }
   componentDidMount() {
     console.log("Slides Reached");
-    console.log(this.state.tcpageno);
     console.log(this.props.x);
     this.getmarks();
   }
   componentDidUpdate(prevProps) {
     console.log("Slides Reached");
     console.log(this.props.x);
-    console.log(this.state.tcpageno);
     if (prevProps.x !== this.props.x && this.state.syncstatus) {
-      this.setState({ tcpageno: this.props.x });
       if (this.props.x >= 1 && this.props.x <= this.state.numPages) {
         this.setState({ pageNumber: this.props.x }, this.getmarks);
       }
     }
   }
-  state = {
-    file: localStorage.getItem("link"),
-    sid: localStorage.getItem("ssid"),
-    // "https://cors-anywhere.herokuapp.com/" + this.props.location.state.link,
-    numPages: null,
-    pageNumber: 1,
-    form_colour: "",
-    form_completed: false,
-    modal: false,
-    Xcord: 0,
-    Ycord: 0,
-    syncstatus: true,
-    synctext: "Unsync",
-  };
 
   toggle() {
     this.setState((prevState) => ({
       modal: !prevState.modal,
     }));
   }
-
+  toggle2() {
+    this.setState((prevState) => ({
+      showaddnotes: !prevState.showaddnotes,
+    }));
+  }
   onChangeFormColour(e) {
     this.setState({
       form_colour: e.target.value,
@@ -85,6 +95,38 @@ class StudentSlide extends Component {
   onChangeComment(e) {
     this.setState({
       form_comment: e.target.value,
+    });
+  }
+  onChangeNote(e) {
+    this.setState({
+      notes: e.target.value,
+    });
+  }
+  onSubmitNotes(e) {
+    e.preventDefault();
+    console.log(this.state.notes);
+    const req = {
+      sid: "2016XX0000H",
+      sessid: this.state.sid,
+      slideNo: this.state.pageNumber,
+      takennote: this.state.notes,
+    };
+    axios.post("api/addnote", req).then((res) => console.log(res));
+    this.toggle2();
+  }
+  getNotes(e) {
+    e.preventDefault();
+    const req = {
+      sid: "2016XX0000H",
+      sessid: this.state.sid,
+      slideNo: this.state.pageNumber,
+    };
+    axios.post("api/addnote/getnotes", req).then((res) => {
+      console.log(res);
+      if (res.data) {
+        console.log(res.data.notes);
+        this.setState({ sNotes: res.data.notes });
+      }
     });
   }
   changsyncstate() {
@@ -170,7 +212,10 @@ class StudentSlide extends Component {
     var pageNo = this.state.pageNumber;
     pageNo--;
     if (pageNo >= 1) {
-      this.setState({ pageNumber: this.state.pageNumber - 1 }, this.getmarks);
+      this.setState(
+        { pageNumber: this.state.pageNumber - 1, sNotes: [] },
+        this.getmarks
+      );
     }
   }
 
@@ -178,14 +223,16 @@ class StudentSlide extends Component {
     var pageNo = this.state.pageNumber;
     pageNo++;
     if (pageNo <= this.state.numPages) {
-      this.setState({ pageNumber: this.state.pageNumber + 1 }, this.getmarks);
+      this.setState(
+        { pageNumber: this.state.pageNumber + 1, sNotes: [] },
+        this.getmarks
+      );
     }
   }
 
   onDocumentLoadSuccess({ numPages }) {
     this.setState({ numPages });
   }
-
   render() {
     const { pageNumber, numPages, file } = this.state;
     const markings = [];
@@ -204,11 +251,11 @@ class StudentSlide extends Component {
         />
       );
     }
-    // console.log("something happened");
-    // socket.on("turnPage", (msg) => {
-    //   console.log(msg);
-    //   console.log("something happened");
-    // });
+    const disp = this.state.sNotes.map((d) => (
+      <Alert>
+        <p>{d}</p>
+      </Alert>
+    ));
     return (
       <Container>
         <Row>
@@ -278,16 +325,66 @@ class StudentSlide extends Component {
                   >
                     Next Slide
                   </Button>
+                </ButtonToolbar>
+              </Alert>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Alert>
+                <ButtonToolbar>
                   <Button
-                    color="green"
-                    style={{ position: "relative", left: "50%" }}
+                    variant="success"
+                    style={{ position: "relative", left: "80%" }}
                     onClick={this.changsyncstate}
                   >
                     {this.state.synctext}
                   </Button>
+                  <Button color="danger" onClick={this.toggle2}>
+                    Addnotes
+                  </Button>
+                  <Modal isOpen={this.state.showaddnotes} toggle={this.toggle2}>
+                    <ModalHeader toggle={this.toggle2}>Modal title</ModalHeader>
+                    <ModalBody>
+                      <Form>
+                        <FormGroup>
+                          <Label for="exampleText" sm={5}>
+                            Text Area
+                          </Label>
+                          <Col sm={10}>
+                            <Input
+                              type="textarea"
+                              name="text"
+                              id="exampleText"
+                              value={this.state.notes}
+                              onChange={this.onChangeNote}
+                            />
+                          </Col>
+                        </FormGroup>
+                      </Form>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button color="primary" onClick={this.onSubmitNotes}>
+                        Add
+                      </Button>{" "}
+                      <Button color="secondary" onClick={this.toggle2}>
+                        Cancel
+                      </Button>
+                    </ModalFooter>
+                  </Modal>
+                  <Button
+                    color="danger"
+                    style={{ position: "relative", left: "20%" }}
+                    onClick={this.getNotes}
+                  >
+                    viewnotes
+                  </Button>
                 </ButtonToolbar>
               </Alert>
             </Col>
+          </Row>
+          <Row>
+            <Col>{disp}</Col>
           </Row>
           <Modal
             isOpen={this.state.modal}

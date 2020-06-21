@@ -28,7 +28,7 @@ const CommonRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={props =>
+      render={(props) =>
         checkToken() ? <Component {...props} /> : <Redirect to="/login" />
       }
     />
@@ -39,7 +39,7 @@ const AdminRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={props =>
+      render={(props) =>
         checkToken() && getDecodedToken().role === "admin" ? (
           <Component {...props} />
         ) : (
@@ -54,12 +54,12 @@ class Routes extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      token: null
+      token: null,
     };
   }
   setToken(token) {
     this.setState({
-      token
+      token,
     });
   }
   render() {
@@ -73,13 +73,13 @@ class Routes extends Component {
           <CommonRoute exact path="/studentslides" component={StudentSlides} />
           <Route
             path="/login"
-            render={props => (
+            render={(props) => (
               <Login {...props} setRouterToken={this.setToken.bind(this)} />
             )}
           />
           <Route
             path="/logout"
-            render={props => (
+            render={(props) => (
               <Logout {...props} setRouterToken={this.setToken.bind(this)} />
             )}
           />
