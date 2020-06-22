@@ -15,26 +15,27 @@ class Login extends Component {
 
     this.state = {
       authenticated: checkToken(),
-      failed: false
+      failed: false,
     };
   }
 
   render() {
-    let googleSuccess = data => {
+    let googleSuccess = (data) => {
       getToken(data.tokenObj.access_token, (err, token) => {
         if (err) {
           return this.setState({
-            failed: true
+            failed: true,
           });
         }
+        console.log(data.profileObj.email);
         this.props.setRouterToken(token);
         this.setState({ authenticated: true });
       });
     };
-    let googleFailure = data => {
+    let googleFailure = (data) => {
       console.log(data);
       this.setState({
-        failed: true
+        failed: true,
       });
     };
     if (this.state.authenticated) {
@@ -57,7 +58,7 @@ class Login extends Component {
                 left: "50%",
                 transform: "translate(-50%,-50%)",
                 textAlign: "center",
-                color: "white"
+                color: "white",
               }}
             >
               <Image src={logo} height="100" width="300" />
@@ -68,7 +69,7 @@ class Login extends Component {
 
               <h5
                 style={{
-                  margin: "10px"
+                  margin: "10px",
                 }}
               >
                 Let's Get Started
@@ -113,7 +114,7 @@ class Login extends Component {
             <br />
             <div
               style={{
-                color: "rgb(66, 133, 244)"
+                color: "rgb(66, 133, 244)",
               }}
             >
               <br />
