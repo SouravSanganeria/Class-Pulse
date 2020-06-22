@@ -1,0 +1,9 @@
+DB_URI=mongodb+srv://Sourav:sourav26@classpulse-2zalm.mongodb.net/test?retryWrites=true&w=majority
+
+JWT_SECRET=somethingverysecret1234567890
+GOOGLE_CLIENT_ID=440278918733-qqr7c1rtb1vd86ctq521jh6taac87voi.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=-JoS9Jo9aH7XQKVHW-PjInox
+CALENDAR_API_KEY=AIzaSyDIHuFkitKN5-CzNR-hVsLG4yM9CuYRg4I
+CALENDAR_ID=jcfou0m3vvss5hummvkne70d70@group.calendar.google.com
+user=csislabs@gmail.com
+pass=csislabs@123

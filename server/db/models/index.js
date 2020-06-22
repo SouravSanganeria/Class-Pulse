@@ -4,3 +4,4 @@
 
 require("./admin.js");
 require("./mark.js");
+require("./notes.js");

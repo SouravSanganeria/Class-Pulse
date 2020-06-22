@@ -4,6 +4,7 @@ import { Alert } from "reactstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Document, Page, pdfjs } from "react-pdf";
+import socket from "../socket";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 //import { axiosGET, axiosPOST } from "../utils/axiosClient";
 import { Spinner, Toast, ToastBody, ToastHeader } from "reactstrap";
@@ -11,7 +12,6 @@ import axios from "axios";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${
   pdfjs.version
 }/pdf.worker.js`;
-
 class Slides extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +34,7 @@ class Slides extends Component {
     marky: [],
     colour: [],
     comment: [],
-    toastcol: ""
+    toastcol: "",
   };
 
   getmarks() {
@@ -43,7 +43,7 @@ class Slides extends Component {
     }`;
     axios
       .get(url)
-      .then(response => {
+      .then((response) => {
         console.log("response", response.data.length);
         const newX = [];
         const newY = [];
@@ -61,7 +61,7 @@ class Slides extends Component {
           markx: newX,
           marky: newY,
           colour: newColour,
-          comment: newComment
+          comment: newComment,
         });
       })
       .catch(function(error) {
@@ -72,6 +72,7 @@ class Slides extends Component {
   decPage() {
     var pageNo = this.state.pageNumber;
     pageNo--;
+    socket.emit("nextPage", pageNo);
     if (pageNo >= 1) {
       this.setState({ pageNumber: this.state.pageNumber - 1 }, this.getmarks);
     }
@@ -80,6 +81,7 @@ class Slides extends Component {
   incPage() {
     var pageNo = this.state.pageNumber;
     pageNo++;
+    socket.emit("nextPage", pageNo);
     if (pageNo <= this.state.numPages) {
       this.setState({ pageNumber: this.state.pageNumber + 1 }, this.getmarks);
     }
@@ -105,7 +107,7 @@ class Slides extends Component {
             top: this.state.marky[i],
             left: this.state.markx[i],
             position: "absolute",
-            zIndex: 2
+            zIndex: 2,
           }}
         />
       );
@@ -119,7 +121,7 @@ class Slides extends Component {
               top: this.state.marky[i],
               left: this.state.markx[i],
               position: "absolute",
-              zIndex: 2
+              zIndex: 2,
             }}
           />
         );
@@ -134,7 +136,7 @@ class Slides extends Component {
               top: this.state.marky[i],
               left: this.state.markx[i],
               position: "absolute",
-              zIndex: 2
+              zIndex: 2,
             }}
           />
         );
@@ -180,13 +182,13 @@ class Slides extends Component {
           style={{
             background: "AliceBlue",
             position: "relative",
-            height: "900px"
+            height: "900px",
           }}
         >
           <Row
             style={{
               padding: "15px",
-              height: "850px"
+              height: "850px",
             }}
           >
             <Col>
@@ -196,7 +198,7 @@ class Slides extends Component {
                   height: "500px",
                   width: "500px",
                   top: "20px",
-                  left: "0%"
+                  left: "0%",
                 }}
               >
                 <Document
@@ -231,7 +233,7 @@ class Slides extends Component {
                     style={{
                       display: "inline",
                       position: "relative",
-                      left: "40%"
+                      left: "40%",
                     }}
                   >
                     Page {pageNumber} of {numPages}
