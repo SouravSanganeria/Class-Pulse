@@ -47,6 +47,7 @@ class StudentSlide extends Component {
     this.state = {
       file: localStorage.getItem("link"),
       sid: localStorage.getItem("ssid"),
+      userid: localStorage.getItem("userid"),
       // "https://cors-anywhere.herokuapp.com/" + this.props.location.state.link,
       numPages: null,
       pageNumber: 1,
@@ -106,7 +107,7 @@ class StudentSlide extends Component {
     e.preventDefault();
     console.log(this.state.notes);
     const req = {
-      sid: "2016XX0000H",
+      sid: this.state.userid,
       sessid: this.state.sid,
       slideNo: this.state.pageNumber,
       takennote: this.state.notes,
@@ -117,7 +118,7 @@ class StudentSlide extends Component {
   getNotes(e) {
     e.preventDefault();
     const req = {
-      sid: "2016XX0000H",
+      sid: this.state.userid,
       sessid: this.state.sid,
       slideNo: this.state.pageNumber,
     };
@@ -251,11 +252,7 @@ class StudentSlide extends Component {
         />
       );
     }
-    const disp = this.state.sNotes.map((d) => (
-      <Alert>
-        <p>{d}</p>
-      </Alert>
-    ));
+    const disp = this.state.sNotes.map((d) => <p>{d}</p>);
     return (
       <Container>
         <Row>
@@ -335,13 +332,13 @@ class StudentSlide extends Component {
                 <ButtonToolbar>
                   <Button
                     variant="success"
-                    style={{ position: "relative", left: "80%" }}
+                    style={{ position: "relative", left: "86%" }}
                     onClick={this.changsyncstate}
                   >
                     {this.state.synctext}
                   </Button>
                   <Button color="danger" onClick={this.toggle2}>
-                    Addnotes
+                    Add Notes
                   </Button>
                   <Modal isOpen={this.state.showaddnotes} toggle={this.toggle2}>
                     <ModalHeader toggle={this.toggle2}>Modal title</ModalHeader>
@@ -374,17 +371,18 @@ class StudentSlide extends Component {
                   </Modal>
                   <Button
                     color="danger"
-                    style={{ position: "relative", left: "20%" }}
+                    style={{ position: "relative", left: "30%" }}
                     onClick={this.getNotes}
                   >
-                    viewnotes
+                    View Notes
                   </Button>
                 </ButtonToolbar>
+                <br />
+                <Row>
+                  <Col>{disp}</Col>
+                </Row>
               </Alert>
             </Col>
-          </Row>
-          <Row>
-            <Col>{disp}</Col>
           </Row>
           <Modal
             isOpen={this.state.modal}

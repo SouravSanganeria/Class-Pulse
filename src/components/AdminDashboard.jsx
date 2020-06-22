@@ -31,8 +31,8 @@ class AdminDashboard extends Component {
     let decoded = getDecodedToken();
     console.log(decoded);
     await axiosGET(`/api/courses/${decoded.email}`, {
-      headers: { "X-Requested-With": "XMLHttpRequest" }
-    }).then(res => {
+      headers: { "X-Requested-With": "XMLHttpRequest" },
+    }).then((res) => {
       allCourses = res.data[0].courses;
       console.log(allCourses);
     });
@@ -42,7 +42,7 @@ class AdminDashboard extends Component {
   generateCoursesList() {
     function getpdfs(coursepdfs) {
       let allpdfs = [];
-      coursepdfs.forEach(pdf => {
+      coursepdfs.forEach((pdf) => {
         allpdfs.push(
           <Card body>
             <Row>
@@ -51,7 +51,7 @@ class AdminDashboard extends Component {
                 <Link
                   to={{
                     pathname: "/admin/slides",
-                    state: { link: pdf.link, sid: pdf.sessionID }
+                    state: { link: pdf.link, sid: pdf.sessionID },
                   }}
                 >
                   <Button variant="primary" align="right">
@@ -70,7 +70,7 @@ class AdminDashboard extends Component {
     temp = this.state.courses;
     console.log(this.state && this.state.courses);
     let tmp = 0;
-    temp.forEach(course => {
+    temp.forEach((course) => {
       allcourses.push(
         <Collapse>
           <Collapse.Panel header={course.name}>
@@ -94,6 +94,7 @@ class AdminDashboard extends Component {
         </Row>
         <div className="m:2">{this.generateCoursesList()}</div>
         <br />
+        <Button>Add New Courses</Button>
         <br />
         <br />
         <div
@@ -102,7 +103,7 @@ class AdminDashboard extends Component {
             left: "0",
             bottom: "10px",
             width: "100%",
-            textAlign: "center"
+            textAlign: "center",
           }}
         >
           <span className="glyphicon glyphicon-calendar" />

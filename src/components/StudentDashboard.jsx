@@ -30,7 +30,7 @@ import {
   NavLink,
   Toast,
   ToastBody,
-  ToastHeader
+  ToastHeader,
 } from "reactstrap";
 
 class StudentDashboard extends Component {
@@ -38,6 +38,7 @@ class StudentDashboard extends Component {
     super(props);
     this.user = getDecodedToken();
     console.log(this.user);
+    console.log(this.user.email);
     this.toggle = this.toggle.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.slide = this.slide.bind(this);
@@ -46,12 +47,12 @@ class StudentDashboard extends Component {
   state = {
     modal: false,
     sessionID: "",
-    link: ""
+    link: "",
   };
 
   toggle() {
-    this.setState(prevState => ({
-      modal: !prevState.modal
+    this.setState((prevState) => ({
+      modal: !prevState.modal,
     }));
   }
 
@@ -63,7 +64,7 @@ class StudentDashboard extends Component {
     var url = `/api/marks/getLink/${this.state.sessionID}`;
     axios
       .get(url)
-      .then(response => {
+      .then((response) => {
         console.log("res", response);
         this.setState({ link: response.data[0].link }, this.slide);
       })
@@ -75,6 +76,7 @@ class StudentDashboard extends Component {
   slide() {
     localStorage.setItem("link", this.state.link);
     localStorage.setItem("ssid", this.state.sessionID);
+    localStorage.setItem("userid", this.user.email);
     //console.log(localStorage.getItem("ssid"));
     //console.log("link", this.state.link);
     window.location.href = "/studentslides";
@@ -88,7 +90,7 @@ class StudentDashboard extends Component {
             style={{
               color: "#404040",
               marginTop: "9rem",
-              marginBottom: "4rem"
+              marginBottom: "4rem",
             }}
           >
             <h1>What would you like to do?</h1>
@@ -109,7 +111,7 @@ class StudentDashboard extends Component {
                 <Input
                   name="text"
                   id="example1234"
-                  onChange={e => {
+                  onChange={(e) => {
                     this.setState({ sessionID: e.target.value });
                   }}
                 />
@@ -128,10 +130,10 @@ class StudentDashboard extends Component {
             left: "0",
             bottom: "10px",
             width: "100%",
-            textAlign: "center"
+            textAlign: "center",
           }}
         >
-          <span class="glyphicon glyphicon-calendar" />
+          <span className="glyphicon glyphicon-calendar" />
           <span style={{ color: "darkgrey" }}>
             BITS Pilani Hyderabad Campus
           </span>
