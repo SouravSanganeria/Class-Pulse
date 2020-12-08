@@ -21,7 +21,7 @@
     "express-fileupload": "^1.1.6",
     "express-session": "^1.15.6",
     "extract-zip": "^1.6.7",
-    "fast-csv": "^2.4.1",
+    "fast-csv": "^4.3.6",
     "filepond": "^4.10.0",
     "filepond-plugin-image-exif-orientation": "^1.0.6",
     "filepond-plugin-image-preview": "^4.6.1",
